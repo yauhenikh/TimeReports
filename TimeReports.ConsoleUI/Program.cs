@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TimeReports.DataAccess.Data;
+using TimeReports.Services;
 
 namespace TimeReports.ConsoleUI
 {
@@ -18,11 +18,11 @@ namespace TimeReports.ConsoleUI
             AddConfiguration();
             RegisterServices();
 
-            var context = _serviceProvider.GetRequiredService<AppDbContext>();
+            var averageHoursService = _serviceProvider.GetRequiredService<AverageHoursService>();
 
-            Console.WriteLine(context.Employees.First().Name);
+            var averageHoursOutput = averageHoursService.GetAverageHoursOutput();
 
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(averageHoursOutput);
         }
 
         private static void AddConfiguration()
@@ -39,6 +39,7 @@ namespace TimeReports.ConsoleUI
             var services = new ServiceCollection();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(_configuration.GetConnectionString("TimeReportsDBConnection")));
+            services.AddScoped<AverageHoursService>();
 
             _serviceProvider = services.BuildServiceProvider();
         }

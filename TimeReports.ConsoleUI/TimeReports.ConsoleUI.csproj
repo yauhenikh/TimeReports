@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TimeReports.DataAccess\TimeReports.DataAccess.csproj" />
+    <ProjectReference Include="..\TimeReports.Services\TimeReports.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
